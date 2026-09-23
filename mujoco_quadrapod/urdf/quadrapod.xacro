@@ -1,0 +1,253 @@
+<?xml version="1.0" ?>
+<robot name="quadrapod" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:include filename="$(find quadrapod_description)/urdf/materials.xacro" />
+<xacro:include filename="$(find quadrapod_description)/urdf/quadrapod.ros2control" />
+<xacro:include filename="$(find quadrapod_description)/urdf/quadrapod.gazebo" />
+<link name="base_link">
+  <inertial>
+    <origin xyz="-5.0015504173558454e-05 -4.99967500864248e-06 0.00996105794740828" rpy="0 0 0"/>
+    <mass value="1.5584416884210213"/>
+    <inertia ixx="0.002627" iyy="0.007133" izz="0.009449" ixy="0.0" iyz="-0.0" ixz="-0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find quadrapod_description)/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0.02498" rpy="0 0 0"/>
+    <geometry>
+      <!-- <mesh filename="file://$(find quadrapod_description)/meshes/base_link.stl" scale="0.001 0.001 0.001"/> -->
+      <box size="0.2 0.12 0.04996"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="fr_arm_1">
+  <inertial>
+    <origin xyz="0.008254738157469396 -0.03564737564981417 -0.0032195239725941738" rpy="0 0 0"/>
+    <mass value="0.21636377650059097"/>
+    <inertia ixx="0.000149" iyy="4.9e-05" izz="0.000151" ixy="3.4e-05" iyz="-3.3e-05" ixz="1.2e-05"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.06 0.045 -0.04996" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find quadrapod_description)/meshes/fr_arm_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.06 0.045 -0.04996" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find quadrapod_description)/meshes/fr_arm_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="rr_arm_1">
+  <inertial>
+    <origin xyz="0.008454024087751408 -0.03560064001391729 -0.003219523987479704" rpy="0 0 0"/>
+    <mass value="0.21636377649549796"/>
+    <inertia ixx="0.000149" iyy="5e-05" izz="0.000151" ixy="3.5e-05" iyz="-3.3e-05" ixz="1.3e-05"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.06 0.045 -0.04996" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find quadrapod_description)/meshes/rr_arm_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.06 0.045 -0.04996" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find quadrapod_description)/meshes/rr_arm_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="rl_arm_1">
+  <inertial>
+    <origin xyz="0.00845402918702444 0.03560065443802035 -0.0032195303464475633" rpy="0 0 0"/>
+    <mass value="0.2163639575889156"/>
+    <inertia ixx="0.000149" iyy="5e-05" izz="0.000151" ixy="-3.5e-05" iyz="3.3e-05" ixz="1.3e-05"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.06 -0.045 -0.04996" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find quadrapod_description)/meshes/rl_arm_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.06 -0.045 -0.04996" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find quadrapod_description)/meshes/rl_arm_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="fr_end_1">
+  <inertial>
+    <origin xyz="-0.034027337040431774 -0.0003228700326182721 -0.03160794144700148" rpy="0 0 0"/>
+    <mass value="0.2645070789705211"/>
+    <inertia ixx="0.00017" iyy="0.000169" izz="5.2e-05" ixy="0.0" iyz="6e-06" ixz="7e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.075268 0.115341 -0.036247" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find quadrapod_description)/meshes/fr_end_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.075268 0.115341 -0.036247" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find quadrapod_description)/meshes/fr_end_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="rr_end_1">
+  <inertial>
+    <origin xyz="-0.034024795207596506 -0.0003426070074352139 -0.031610202053977875" rpy="0 0 0"/>
+    <mass value="0.26450707899322123"/>
+    <inertia ixx="0.00017" iyy="0.000169" izz="5.2e-05" ixy="0.0" iyz="7e-06" ixz="7e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.044339 0.115254 -0.036247" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find quadrapod_description)/meshes/rr_end_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.044339 0.115254 -0.036247" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find quadrapod_description)/meshes/rr_end_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="fl_arm_1">
+  <inertial>
+    <origin xyz="0.008454029187023732 0.035600654432822676 -0.0032195303708393574" rpy="0 0 0"/>
+    <mass value="0.2163639575889156"/>
+    <inertia ixx="0.000149" iyy="5e-05" izz="0.000151" ixy="-3.5e-05" iyz="3.3e-05" ixz="1.3e-05"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.06 -0.045 -0.04996" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find quadrapod_description)/meshes/fl_arm_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.06 -0.045 -0.04996" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find quadrapod_description)/meshes/fl_arm_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="rl_end_1">
+  <inertial>
+    <origin xyz="-0.03402437579391139 0.0017890563833676265 -0.03156185975962293" rpy="0 0 0"/>
+    <mass value="0.2645066749304347"/>
+    <inertia ixx="0.00017" iyy="0.00017" izz="5.1e-05" ixy="-0.0" iyz="-2e-06" ixz="7e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="0.044339 -0.115254 -0.036247" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find quadrapod_description)/meshes/rl_end_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0.044339 -0.115254 -0.036247" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find quadrapod_description)/meshes/rl_end_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="fl_end_1">
+  <inertial>
+    <origin xyz="-0.03402437579391188 0.001789056372470177 -0.03156185978895383" rpy="0 0 0"/>
+    <mass value="0.2645066749304345"/>
+    <inertia ixx="0.00017" iyy="0.00017" izz="5.1e-05" ixy="-0.0" iyz="-2e-06" ixz="7e-06"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.075661 -0.115254 -0.036247" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find quadrapod_description)/meshes/fl_end_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.075661 -0.115254 -0.036247" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="file://$(find quadrapod_description)/meshes/fl_end_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<joint name="Revolute 48" type="continuous">
+  <origin xyz="0.06 -0.045 0.04996" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="fr_arm_1"/>
+  <axis xyz="0.0 0.0 1.0"/>
+</joint>
+
+<joint name="Revolute 49" type="continuous">
+  <origin xyz="-0.06 -0.045 0.04996" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="rr_arm_1"/>
+  <axis xyz="-0.0 -0.0 1.0"/>
+</joint>
+
+<joint name="Revolute 51" type="continuous">
+  <origin xyz="-0.06 0.045 0.04996" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="rl_arm_1"/>
+  <axis xyz="-0.0 -0.0 1.0"/>
+</joint>
+
+<joint name="Revolute 52" type="continuous">
+  <origin xyz="0.015268 -0.070341 -0.013713" rpy="0 0 0"/>
+  <parent link="fr_arm_1"/>
+  <child link="fr_end_1"/>
+  <axis xyz="-0.999986 0.005286 -0.0"/>
+</joint>
+
+<joint name="Revolute 53" type="continuous">
+  <origin xyz="0.015661 -0.070254 -0.013713" rpy="0 0 0"/>
+  <parent link="rr_arm_1"/>
+  <child link="rr_end_1"/>
+  <axis xyz="-1.0 -0.000308 -0.0"/>
+</joint>
+
+<joint name="Revolute 54" type="continuous">
+  <origin xyz="0.06 0.045 0.04996" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="fl_arm_1"/>
+  <axis xyz="0.0 -0.0 1.0"/>
+</joint>
+
+<joint name="Revolute 55" type="continuous">
+  <origin xyz="0.015661 0.070254 -0.013713" rpy="0 0 0"/>
+  <parent link="rl_arm_1"/>
+  <child link="rl_end_1"/>
+  <axis xyz="-1.0 0.000308 0.0"/>
+</joint>
+
+<joint name="Revolute 56" type="continuous">
+  <origin xyz="0.015661 0.070254 -0.013713" rpy="0 0 0"/>
+  <parent link="fl_arm_1"/>
+  <child link="fl_end_1"/>
+  <axis xyz="-1.0 0.000308 0.0"/>
+</joint>
+
+</robot>

@@ -1,0 +1,213 @@
+<mujoco model="quadrapod">
+  <compiler angle="radian" meshdir="../meshes" />
+
+  <asset>
+    <texture name="ground_grid" type="2d" builtin="checker"
+      width="512" height="512" rgb1="0.055 0.075 0.105" rgb2="0.095 0.125 0.165"
+      mark="edge" markrgb="0.16 0.20 0.25" />
+    <material name="ground_material" texture="ground_grid" texrepeat="10 10" shininess="0.15" />
+    <mesh name="base_link" content_type="model/stl" file="base_link.stl" scale="0.001 0.001 0.001" />
+    <mesh name="fr_arm_1" content_type="model/stl" file="fr_arm_1.stl" scale="0.001 0.001 0.001" />
+    <mesh name="rr_arm_1" content_type="model/stl" file="rr_arm_1.stl" scale="0.001 0.001 0.001" />
+    <mesh name="rl_arm_1" content_type="model/stl" file="rl_arm_1.stl" scale="0.001 0.001 0.001" />
+    <mesh name="fr_end_1" content_type="model/stl" file="fr_end_1.stl" scale="0.001 0.001 0.001" />
+    <mesh name="rr_end_1" content_type="model/stl" file="rr_end_1.stl" scale="0.001 0.001 0.001" />
+    <mesh name="fl_arm_1" content_type="model/stl" file="fl_arm_1.stl" scale="0.001 0.001 0.001" />
+    <mesh name="rl_end_1" content_type="model/stl" file="rl_end_1.stl" scale="0.001 0.001 0.001" />
+    <mesh name="fl_end_1" content_type="model/stl" file="fl_end_1.stl" scale="0.001 0.001 0.001" />
+  </asset>
+
+  <visual>
+    <global offwidth="1600" offheight="1000" />
+    <quality shadowsize="2048" />
+    <headlight active="1" ambient="0.28 0.30 0.36" diffuse="0.72 0.75 0.85"
+      specular="0.35 0.35 0.40" />
+    <map stiffness="0.8" fogstart="2.5" fogend="8" />
+  </visual>
+
+  <worldbody>
+    <light name="key_light" pos="1.5 -2.0 3.0" dir="-0.35 0.45 -1"
+      diffuse="0.95 0.88 0.76" specular="0.45 0.40 0.35" directional="true" />
+    <light name="fill_light" pos="-2.0 1.0 1.8" dir="0.45 -0.25 -1"
+      diffuse="0.35 0.48 0.75" specular="0.25 0.30 0.45" directional="true" />
+    <geom name="ground" type="plane" pos="0 0 0" size="4 4 0.01"
+      material="ground_material" friction="0.8 0.05 0.01" />
+    <body name="base_link" pos="0 0 0.04">
+      <freejoint />
+      <inertial
+        pos="-5.00155e-05 -4.99968e-06 0.00996106"
+        quat="1 0 0 0"
+        mass="0.150"
+        diaginertia="0.000253 0.000687 0.000909" />
+      
+      <site name="imu" pos="0 0 0"/>
+      <site name="mass_debug_base" pos="-5.00155e-05 -4.99968e-06 0.00996106"
+        type="sphere" size="0.012" rgba="0.95 0.75 0.10 1" group="3" />
+      <!-- Visual: original Fusion STL -->
+      <geom
+        name="base_collision"
+        type="mesh"
+        mesh="base_link"
+        rgba="0.12 0.42 0.72 1" />
+
+      <!-- Approximate fixed masses: upper servos are mounted to the base. -->
+      <body name="fr_upper_servo_mass" pos="0.06 -0.045 0.04996">
+        <inertial pos="0 0 0" mass="0.055" diaginertia="0.000010 0.000010 0.000010" />
+        <site name="mass_debug_fr_upper_servo" type="sphere" size="0.009"
+          rgba="0.90 0.20 0.15 1" group="3" />
+      </body>
+      <body name="rr_upper_servo_mass" pos="-0.06 -0.045 0.04996">
+        <inertial pos="0 0 0" mass="0.055" diaginertia="0.000010 0.000010 0.000010" />
+        <site name="mass_debug_rr_upper_servo" type="sphere" size="0.009"
+          rgba="0.90 0.20 0.15 1" group="3" />
+      </body>
+      <body name="rl_upper_servo_mass" pos="-0.06 0.045 0.04996">
+        <inertial pos="0 0 0" mass="0.055" diaginertia="0.000010 0.000010 0.000010" />
+        <site name="mass_debug_rl_upper_servo" type="sphere" size="0.009"
+          rgba="0.90 0.20 0.15 1" group="3" />
+      </body>
+      <body name="fl_upper_servo_mass" pos="0.06 0.045 0.04996">
+        <inertial pos="0 0 0" mass="0.055" diaginertia="0.000010 0.000010 0.000010" />
+        <site name="mass_debug_fl_upper_servo" type="sphere" size="0.009"
+          rgba="0.90 0.20 0.15 1" group="3" />
+      </body>
+
+      <!-- Approximate component locations; edit these body positions after measurement. -->
+      <body name="battery_mass" pos="0 0 0.030">
+        <inertial pos="0 0 0" mass="0.175" diaginertia="0.000050 0.000050 0.000050" />
+        <site name="mass_debug_battery" type="sphere" size="0.014"
+          rgba="0.15 0.45 0.95 1" group="3" />
+      </body>
+      <body name="electronics_mass" pos="0 0 0.070">
+        <inertial pos="0 0 0" mass="0.050" diaginertia="0.000015 0.000015 0.000015" />
+        <site name="mass_debug_electronics" type="sphere" size="0.010"
+          rgba="0.15 0.85 0.35 1" group="3" />
+      </body>
+
+      <body name="fr_arm_1" pos="0.06 -0.045 0.04996">
+        <inertial pos="0.00825474 -0.0356474 -0.00321952"
+           quat="0.478069 0.749911 -0.274343 0.365812" mass="0.022"
+          diaginertia="0.0000165 0.0000161 0.0000029" />
+        <body name="fr_lower_servo_mass" pos="0.015268 -0.070341 -0.013713">
+          <inertial pos="0 0 0" mass="0.055" diaginertia="0.000010 0.000010 0.000010" />
+          <site name="mass_debug_fr_lower_servo" type="sphere" size="0.009"
+            rgba="0.95 0.45 0.10 1" group="3" />
+        </body>
+        <joint name="1" type="hinge" range="-0.733038 1.605703" limited="true" />
+        <geom pos="-0.06 0.045 -0.04996" quat="1 0 0 0" type="mesh" rgba="0.18 0.68 0.72 1"
+          mesh="fr_arm_1" />
+        <body name="fr_end_1" pos="0.015268 -0.070341 -0.013713">
+          <inertial pos="-0.0340273 -0.00032287 -0.0316079"
+            quat="0.989091 0.020986 -0.0327311 0.142079" mass="0.032"
+            diaginertia="0.0000206 0.0000204 0.0000062" />
+          <joint name="2" type="hinge" axis="-0.999986 0.005286 0" range="0.000000 3.141593" limited="true" />
+          <geom pos="-0.075268 0.115341 -0.036247" quat="1 0 0 0" type="mesh" rgba="0.95 0.38 0.20 1"
+            mesh="fr_end_1" />
+            <site name="fr_foot" pos="-0.037969468 0.004707002 -0.075134911" size="0.005"/>
+        </body>
+      </body>
+      <body name="rr_arm_1" pos="-0.06 -0.045 0.04996">
+        <inertial pos="0.00845402 -0.0356006 -0.00321952" quat="0.49285 0.764583 -0.233164 0.343723"
+          mass="0.022" diaginertia="0.0000166 0.0000161 0.0000029" />
+        <body name="rr_lower_servo_mass" pos="0.015661 -0.070254 -0.013713">
+          <inertial pos="0 0 0" mass="0.055" diaginertia="0.000010 0.000010 0.000010" />
+          <site name="mass_debug_rr_lower_servo" type="sphere" size="0.009"
+            rgba="0.95 0.45 0.10 1" group="3" />
+        </body>
+        <joint name="3" type="hinge" range="-1.780236 1.082104" limited="true" />
+        <geom pos="0.06 0.045 -0.04996" quat="1 0 0 0" type="mesh" rgba="0.18 0.68 0.72 1"
+          mesh="rr_arm_1" />
+        <body name="rr_end_1" pos="0.015661 -0.070254 -0.013713">
+          <inertial pos="-0.0340248 -0.000342607 -0.0316102"
+            quat="0.984153 0.0241152 -0.0340473 0.172342" mass="0.032"
+            diaginertia="0.0000206 0.0000204 0.0000062" />
+          <joint name="4" type="hinge" axis="-1 -0.000308 0" range="0.000000 3.141593" limited="true" />
+          <geom pos="0.044339 0.115254 -0.036247" quat="1 0 0 0" type="mesh" rgba="0.95 0.38 0.20 1"
+            mesh="rr_end_1" />
+            <site name="rr_foot" pos="-0.037995072 0.004580150 -0.075172518" size="0.005"/>
+        </body>
+      </body>
+      <body name="rl_arm_1" pos="-0.06 0.045 0.04996">
+        <inertial pos="0.00845403 0.0356007 -0.00321953" quat="0.764583 0.49285 -0.343723 0.233164"
+          mass="0.022" diaginertia="0.0000166 0.0000161 0.0000029" />
+        <body name="rl_lower_servo_mass" pos="0.015661 0.070254 -0.013713">
+          <inertial pos="0 0 0" mass="0.055" diaginertia="0.000010 0.000010 0.000010" />
+          <site name="mass_debug_rl_lower_servo" type="sphere" size="0.009"
+            rgba="0.95 0.45 0.10 1" group="3" />
+        </body>
+        <joint name="5" type="hinge" range="-0.977384 1.815142" limited="true" />
+        <geom pos="0.06 -0.045 -0.04996" quat="1 0 0 0" type="mesh" rgba="0.18 0.68 0.72 1"
+          mesh="rl_arm_1" />
+        <body name="rl_end_1" pos="0.015661 0.070254 -0.013713">
+          <inertial pos="-0.0340244 0.00178906 -0.0315619"
+            quat="0.989876 -0.00422105 -0.0301386 -0.138637" mass="0.032"
+            diaginertia="0.0000206 0.0000205 0.0000061" />
+          <joint name="6" type="hinge" axis="-1 0.000308 0" range="-3.141593 0.000000" limited="true" />
+          <geom pos="0.044339 -0.115254 -0.036247" quat="1 0 0 0" type="mesh" rgba="0.95 0.38 0.20 1"
+            mesh="rl_end_1" />
+            <site name="rl_foot" pos="-0.032660974 -0.002409825 -0.075387801" size="0.005"/>
+        </body>
+      </body>
+      <body name="fl_arm_1" pos="0.06 0.045 0.04996">
+        <inertial pos="0.00845403 0.0356007 -0.00321953" quat="0.764583 0.49285 -0.343723 0.233164"
+          mass="0.022" diaginertia="0.0000166 0.0000161 0.0000029" />
+        <body name="fl_lower_servo_mass" pos="0.015661 0.070254 -0.013713">
+          <inertial pos="0 0 0" mass="0.055" diaginertia="0.000010 0.000010 0.000010" />
+          <site name="mass_debug_fl_lower_servo" type="sphere" size="0.009"
+            rgba="0.95 0.45 0.10 1" group="3" />
+        </body>
+        <joint name="7" type="hinge" range="-1.605703 0.907571" limited="true" />
+        <geom pos="-0.06 -0.045 -0.04996" quat="1 0 0 0" type="mesh" rgba="0.18 0.68 0.72 1"
+          mesh="fl_arm_1" />
+        <body name="fl_end_1" pos="0.015661 0.070254 -0.013713">
+          <inertial pos="-0.0340244 0.00178906 -0.0315619"
+            quat="0.989876 -0.00422105 -0.0301386 -0.138637" mass="0.032"
+            diaginertia="0.0000206 0.0000205 0.0000061" />
+          <joint name="8" type="hinge" axis="-1 0.000308 0" range="-3.141593 0.000000" limited="true" />
+          <geom pos="-0.075661 -0.115254 -0.036247" quat="1 0 0 0" type="mesh" rgba="0.95 0.38 0.20 1"
+            mesh="fl_end_1" />
+            <site name="fl_foot" pos="-0.037994333 -0.002087400 -0.075349695" size="0.005"/>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+  <actuator>
+
+    <position name="motor_1" joint="1" kp="2" dampratio="0.2"
+      ctrllimited="true" ctrlrange="-0.733038 1.605703"
+      forcelimited="true" forcerange="-0.98 0.98" />
+    <position name="motor_2" joint="2" kp="2" dampratio="0.2"
+      ctrllimited="true" ctrlrange="0 3.141593"
+      forcelimited="true" forcerange="-0.98 0.98" />
+    <position name="motor_3" joint="3" kp="2" dampratio="0.2"
+      ctrllimited="true" ctrlrange="-1.780236 1.082104"
+      forcelimited="true" forcerange="-0.98 0.98" />
+    <position name="motor_4" joint="4" kp="2" dampratio="0.2"
+      ctrllimited="true" ctrlrange="0 3.141593"
+      forcelimited="true" forcerange="-0.98 0.98" />
+    <position name="motor_5" joint="5" kp="2" dampratio="0.2"
+      ctrllimited="true" ctrlrange="-0.977384 1.815142"
+      forcelimited="true" forcerange="-0.98 0.98" />
+    <position name="motor_6" joint="6" kp="2" dampratio="0.2"
+      ctrllimited="true" ctrlrange="-3.141593 0"
+      forcelimited="true" forcerange="-0.98 0.98" />
+    <position name="motor_7" joint="7" kp="2" dampratio="0.2"
+      ctrllimited="true" ctrlrange="-1.605703 0.907571"
+      forcelimited="true" forcerange="-0.98 0.98" />
+    <position name="motor_8" joint="8" kp="2" dampratio="0.2"
+      ctrllimited="true" ctrlrange="-3.141593 0"
+      forcelimited="true" forcerange="-0.98 0.98" />
+
+  </actuator>
+  <sensor>
+
+    <accelerometer
+        name="imu_accel"
+        site="imu"/>
+
+    <gyro
+        name="imu_gyro"
+        site="imu"/>
+
+</sensor>
+</mujoco>

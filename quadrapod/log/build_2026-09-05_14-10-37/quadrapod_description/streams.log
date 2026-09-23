@@ -1,0 +1,44 @@
+[0.818s] Invoking command in '/home/dream-hell/sleipnir/quadrapod/build/quadrapod_description': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/build --no-deps symlink_data
+[1.009s] running develop
+[1.116s] running egg_info
+[1.116s] creating quadrapod_description.egg-info
+[1.126s] writing quadrapod_description.egg-info/PKG-INFO
+[1.126s] writing dependency_links to quadrapod_description.egg-info/dependency_links.txt
+[1.126s] writing requirements to quadrapod_description.egg-info/requires.txt
+[1.126s] writing top-level names to quadrapod_description.egg-info/top_level.txt
+[1.127s] writing manifest file 'quadrapod_description.egg-info/SOURCES.txt'
+[1.146s] reading manifest file 'quadrapod_description.egg-info/SOURCES.txt'
+[1.146s] writing manifest file 'quadrapod_description.egg-info/SOURCES.txt'
+[1.157s] running build_ext
+[1.157s] Creating /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/lib/python3.12/site-packages/quadrapod-description.egg-link (link to .)
+[1.157s] 
+[1.157s] Installed /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description
+[1.157s] running symlink_data
+[1.158s] creating /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/ament_index
+[1.158s] creating /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/ament_index/resource_index
+[1.158s] creating /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/ament_index/resource_index/packages
+[1.158s] symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/resource/quadrapod_description -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/ament_index/resource_index/packages
+[1.158s] symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/package.xml -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description
+[1.158s] creating /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/launch
+[1.158s] symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/launch/gazebo.launch.py -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/launch
+[1.158s] symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/launch/display.launch.py -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/launch
+[1.158s] creating /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/urdf
+[1.158s] symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/urdf/quadrapod.ros2control -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/urdf
+[1.158s] symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/urdf/quadrapod.xacro -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/urdf
+[1.158s] symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/urdf/materials.xacro -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/urdf
+[1.158s] symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/urdf/quadrapod.gazebo -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/urdf
+[1.158s] creating /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/meshes
+[1.158s] symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/meshes/fl_arm_1.stl -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/meshes
+[1.158s] symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/meshes/rr_end_1.stl -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/meshes
+[1.158s] symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/meshes/fr_arm_1.stl -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/meshes
+[1.158s] symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/meshes/rl_arm_1.stl -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/meshes
+[1.158s] symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/meshes/base_link.stl -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/meshes
+[1.158s] symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/meshes/rl_end_1.stl -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/meshes
+[1.159s] symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/meshes/rr_arm_1.stl -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/meshes
+[1.159s] symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/meshes/fr_end_1.stl -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/meshes
+[1.159s] symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/meshes/fl_end_1.stl -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/meshes
+[1.159s] creating /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/config
+[1.159s] symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/config/gazebo.rviz -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/config
+[1.159s] symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/config/ros_gz_bridge_gazebo.yaml -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/config
+[1.159s] symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/config/display.rviz -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/config
+[1.178s] Invoked command in '/home/dream-hell/sleipnir/quadrapod/build/quadrapod_description' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/build --no-deps symlink_data

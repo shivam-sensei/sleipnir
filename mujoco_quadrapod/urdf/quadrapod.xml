@@ -1,0 +1,58 @@
+<mujoco model="quadrapod">
+  <compiler angle="radian"/>
+
+  <asset>
+    <mesh name="fr_arm_1" content_type="model/stl" file="fr_arm_1.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="rr_arm_1" content_type="model/stl" file="rr_arm_1.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="rl_arm_1" content_type="model/stl" file="rl_arm_1.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="fr_end_1" content_type="model/stl" file="fr_end_1.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="rr_end_1" content_type="model/stl" file="rr_end_1.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="fl_arm_1" content_type="model/stl" file="fl_arm_1.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="rl_end_1" content_type="model/stl" file="rl_end_1.stl" scale="0.001 0.001 0.001"/>
+    <mesh name="fl_end_1" content_type="model/stl" file="fl_end_1.stl" scale="0.001 0.001 0.001"/>
+  </asset>
+
+  <worldbody>
+    <geom size="0.1 0.06 0.02498" pos="0 0 0.02498" type="box" rgba="0.7 0.7 0.7 1"/>
+    <body name="fr_arm_1" pos="0.06 -0.045 0.04996">
+      <inertial pos="0.00825474 -0.0356474 -0.00321952" quat="0.478069 0.749911 -0.274343 0.365812" mass="0.216364" diaginertia="0.00016212 0.000158386 2.84937e-05"/>
+      <joint name="Revolute 48"/>
+      <geom pos="-0.06 0.045 -0.04996" quat="1 0 0 0" type="mesh" rgba="0.7 0.7 0.7 1" mesh="fr_arm_1"/>
+      <body name="fr_end_1" pos="0.015268 -0.070341 -0.013713">
+        <inertial pos="-0.0340273 -0.00032287 -0.0316079" quat="0.989091 0.020986 -0.0327311 0.142079" mass="0.264507" diaginertia="0.000170517 0.000169202 5.12814e-05"/>
+        <joint name="Revolute 52" axis="-0.999986 0.005286 0"/>
+        <geom pos="-0.075268 0.115341 -0.036247" quat="1 0 0 0" type="mesh" rgba="0.7 0.7 0.7 1" mesh="fr_end_1"/>
+      </body>
+    </body>
+    <body name="rr_arm_1" pos="-0.06 -0.045 0.04996">
+      <inertial pos="0.00845402 -0.0356006 -0.00321952" quat="0.49285 0.764583 -0.233164 0.343723" mass="0.216364" diaginertia="0.000163046 0.000158316 2.86383e-05"/>
+      <joint name="Revolute 49"/>
+      <geom pos="0.06 0.045 -0.04996" quat="1 0 0 0" type="mesh" rgba="0.7 0.7 0.7 1" mesh="rr_arm_1"/>
+      <body name="rr_end_1" pos="0.015661 -0.070254 -0.013713">
+        <inertial pos="-0.0340248 -0.000342607 -0.0316102" quat="0.984153 0.0241152 -0.0340473 0.172342" mass="0.264507" diaginertia="0.000170562 0.000169266 5.11718e-05"/>
+        <joint name="Revolute 53" axis="-1 -0.000308 0"/>
+        <geom pos="0.044339 0.115254 -0.036247" quat="1 0 0 0" type="mesh" rgba="0.7 0.7 0.7 1" mesh="rr_end_1"/>
+      </body>
+    </body>
+    <body name="rl_arm_1" pos="-0.06 0.045 0.04996">
+      <inertial pos="0.00845403 0.0356007 -0.00321953" quat="0.764583 0.49285 -0.343723 0.233164" mass="0.216364" diaginertia="0.000163046 0.000158316 2.86383e-05"/>
+      <joint name="Revolute 51"/>
+      <geom pos="0.06 -0.045 -0.04996" quat="1 0 0 0" type="mesh" rgba="0.7 0.7 0.7 1" mesh="rl_arm_1"/>
+      <body name="rl_end_1" pos="0.015661 0.070254 -0.013713">
+        <inertial pos="-0.0340244 0.00178906 -0.0315619" quat="0.989876 -0.00422105 -0.0301386 -0.138637" mass="0.264507" diaginertia="0.000170444 0.00017 5.05563e-05"/>
+        <joint name="Revolute 55" axis="-1 0.000308 0"/>
+        <geom pos="0.044339 -0.115254 -0.036247" quat="1 0 0 0" type="mesh" rgba="0.7 0.7 0.7 1" mesh="rl_end_1"/>
+      </body>
+    </body>
+    <body name="fl_arm_1" pos="0.06 0.045 0.04996">
+      <inertial pos="0.00845403 0.0356007 -0.00321953" quat="0.764583 0.49285 -0.343723 0.233164" mass="0.216364" diaginertia="0.000163046 0.000158316 2.86383e-05"/>
+      <joint name="Revolute 54"/>
+      <geom pos="-0.06 -0.045 -0.04996" quat="1 0 0 0" type="mesh" rgba="0.7 0.7 0.7 1" mesh="fl_arm_1"/>
+      <body name="fl_end_1" pos="0.015661 0.070254 -0.013713">
+        <inertial pos="-0.0340244 0.00178906 -0.0315619" quat="0.989876 -0.00422105 -0.0301386 -0.138637" mass="0.264507" diaginertia="0.000170444 0.00017 5.05563e-05"/>
+        <joint name="Revolute 56" axis="-1 0.000308 0"/>
+        <geom pos="-0.075661 -0.115254 -0.036247" quat="1 0 0 0" type="mesh" rgba="0.7 0.7 0.7 1" mesh="fl_end_1"/>
+      </body>
+    </body>
+  </worldbody>
+</mujoco>

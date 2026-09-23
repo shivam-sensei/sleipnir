@@ -1,0 +1,42 @@
+running develop
+running egg_info
+creating quadrapod_description.egg-info
+writing quadrapod_description.egg-info/PKG-INFO
+writing dependency_links to quadrapod_description.egg-info/dependency_links.txt
+writing requirements to quadrapod_description.egg-info/requires.txt
+writing top-level names to quadrapod_description.egg-info/top_level.txt
+writing manifest file 'quadrapod_description.egg-info/SOURCES.txt'
+reading manifest file 'quadrapod_description.egg-info/SOURCES.txt'
+writing manifest file 'quadrapod_description.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/lib/python3.12/site-packages/quadrapod-description.egg-link (link to .)
+
+Installed /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description
+running symlink_data
+creating /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/ament_index
+creating /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/ament_index/resource_index
+creating /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/ament_index/resource_index/packages
+symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/resource/quadrapod_description -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/ament_index/resource_index/packages
+symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/package.xml -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description
+creating /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/launch
+symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/launch/gazebo.launch.py -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/launch
+symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/launch/display.launch.py -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/launch
+creating /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/urdf
+symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/urdf/quadrapod.ros2control -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/urdf
+symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/urdf/quadrapod.xacro -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/urdf
+symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/urdf/materials.xacro -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/urdf
+symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/urdf/quadrapod.gazebo -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/urdf
+creating /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/meshes
+symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/meshes/fl_arm_1.stl -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/meshes
+symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/meshes/rr_end_1.stl -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/meshes
+symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/meshes/fr_arm_1.stl -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/meshes
+symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/meshes/rl_arm_1.stl -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/meshes
+symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/meshes/base_link.stl -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/meshes
+symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/meshes/rl_end_1.stl -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/meshes
+symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/meshes/rr_arm_1.stl -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/meshes
+symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/meshes/fr_end_1.stl -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/meshes
+symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/meshes/fl_end_1.stl -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/meshes
+creating /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/config
+symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/config/gazebo.rviz -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/config
+symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/config/ros_gz_bridge_gazebo.yaml -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/config
+symbolically linking /home/dream-hell/sleipnir/quadrapod/build/quadrapod_description/config/display.rviz -> /home/dream-hell/sleipnir/quadrapod/install/quadrapod_description/share/quadrapod_description/config
