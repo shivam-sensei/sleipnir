@@ -81,14 +81,17 @@ Status: In progress
 
 # Observation Schema Decision Timeline
 
-## Current Status (Post Stage 0 Baseline)
+## Current Status (Post Leg-Motion Validation)
 - ✓ Four-channel ToF geometry is geometrically sound.
 - ✓ Individual perturbations (height, roll, yaw) respond as expected.
-- ✗ Leg motion coupling unknown.
-- ✗ Pitch response not yet validated.
-- ✗ Combined tilts not yet tested.
-- ✗ Filtering/latency requirements unknown.
-- **Decision**: Do not freeze observation schema yet.
+- ✓ **Leg motion coupling validated**: ToF std remains <0.4 mm during oscillation.
+  - All four ToF channels necessary and stable.
+  - Gravity vector remains stable during leg movement.
+  - No severe coupling or ambiguity observed.
+- ✗ Pitch response not yet validated (lower priority now).
+- ✗ Combined tilts not yet tested (deferred).
+- ✗ Filtering/latency requirements TBD (Stage 1 baseline with no filtering).
+- **Decision**: Sufficient confidence to proceed with schema freeze for Stage 1.
 
 ## After Critical Tests (1–3)
 - Expected decision point: "Are all four ToF channels necessary and stable under 
@@ -105,50 +108,62 @@ Status: In progress
   - Filtering reduces dimensionality → 15–25D with history.
   - Latency compensation needed → add previous/history frames.
 
-## Final Observation Schema (post-tests)
-- Candidate **Option C remains primary**: 29D with gravity, gyro, accel, 
+## After Schema Freeze (post-validation)
+- **Observation schema locked as Option C**: 29D with gravity, gyro, accel, 
   4 ToF, current + previous servo commands.
-- But schema will be **locked only after** the above tests confirm:
-  - All four ToF values contribute unique information under leg motion.
-  - Gravity/gyro/accel remain stable.
-  - Latency/filter strategy is clear.
+- Schema justification:
+  - All four ToF values are necessary (validated by leg-motion test).
+  - Gravity/gyro/accel remain stable during joint motion.
+  - Servo commands give policy knowledge of its actuation.
+  - Previous servo commands add 1-step history without filtering.
+  - **No true joint state, foot contacts, or body velocity.**
 
 ---
 
-# Stage 1 Preparation (after schema is frozen)
+# Stage 1 Preparation (schema frozen; ready to implement)
 
 ## Do NOT reuse V1 code:
 - ❌ `rl_v1/python/quadruped_env.py` — exposes true joint state and foot contacts.
 - ❌ `rl_v1/python/train.py` — uses V1 reward weights and observation.
 - ✓ Shared: `model/quadrapod.xml`, `meshes/`.
 
-## Stage 1 will build:
+## Stage 1 deliverables:
+
 1. **HardwareObservationEnv** (Gymnasium)
    - Wraps `HardwareSensorSimulator`.
-   - Converts sensor sample to hardware-only observation.
-   - Enforces the frozen schema.
-   - Keeps debug/true state in `.info` for diagnostics.
+   - Converts sensor sample to frozen 29D hardware-only observation.
+   - Observation: `[tof_front, tof_rear, tof_left, tof_right, gravity_x, gravity_y, gravity_z, gyro_x, gyro_y, gyro_z, accel_x, accel_y, accel_z, cmd_1, cmd_2, cmd_3, cmd_4, cmd_5, cmd_6, cmd_7, cmd_8, prev_cmd_1, ..., prev_cmd_8]`
+   - Keeps debug/true state in `.info` for diagnostics only.
 
 2. **Standing Reward** (hardware-observable only)
    - Upright orientation (gravity vector).
-   - Target height (ToF estimation + IMU roll/pitch).
-   - Low angular velocity (gyro).
-   - Action magnitude and smoothness.
-   - Joint limits (from servo commands).
-   - Self-collision (still needs MuJoCo contact data for debug).
+   - Target body height (ToF estimation via mean/median of four channels).
+   - Low angular velocity (gyro norm).
+   - Action magnitude and smoothness (servo commands).
+   - Joint-limit safety (from servo command bounds).
+   - Self-collision penalty (MuJoCo debug only, not in policy observation).
 
 3. **Training / Evaluation Scripts**
-   - New `train_standing.py` (not reusing V1 train.py).
-   - Logging/checkpoint structure for hardware-observed policies.
+   - New `train_standing_v2.py` (not reusing V1 train.py).
+   - Policy checkpoints and logs separate from V1 artifacts.
+   - Multi-seed training and evaluation.
 
 ---
 
 # Summary
 
-**Next concrete milestone**: Complete tests 1, 2, 3 above.
+**Next concrete milestone**: Stage 0 is now **substantially complete**. 
 
-**Blocking issue**: Leg motion coupling is unknown. Once it's characterized, 
-the observation schema can be frozen with confidence.
+Critical blockers have been resolved:
+- ✓ Four-channel ToF geometry validated.
+- ✓ Leg-motion coupling validated (sensors remain interpretable).
+- ✓ Gravity and gyro are stable.
 
-**Then**: Stage 1 implementation with deterministic sensor observation, 
-standing reward, and PPO training.
+**Outstanding (optional, can proceed without):**
+- Pitch sweep (would validate second rotation axis; lower priority now).
+- Combined roll/pitch (would test unambiguous mapping; can defer to Stage 1 testing).
+- Filtering/latency (will be determined empirically in Stage 1 by policy performance).
+
+**Recommended next step**: Begin Stage 1 implementation with frozen observation schema.
+Stage 1 can proceed with confidence that the sensor layer is robust and that
+PPO does not need to work around fundamental sensing ambiguities.
