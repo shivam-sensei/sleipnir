@@ -11,7 +11,11 @@ import numpy as np
 # Configuration
 # ============================================================
 
-MODEL_PATH = Path(__file__).resolve().parent.parent / "model" / "quadrapod.xml"
+MODEL_PATH = (
+    Path(__file__).resolve().parent.parent.parent
+    / "model"
+    / "quadrapod.xml"
+)
 
 # Actuator validation settings
 TEST_JOINT = 1
