@@ -1,126 +1,166 @@
-"""Hardware-facing sensor simulation for V2 Stage 0.
-
-This module intentionally has no Gymnasium, PPO, reward, or policy code.
-"""
-
-from dataclasses import dataclass
-from pathlib import Path
-
 import mujoco
 import numpy as np
-
+from dataclasses import dataclass
 
 TOF_NAMES = ("front", "rear", "left", "right")
+JOINT_LIMITS = {
+    1: (-0.733038, 1.605703),
+    2: (0.0, 3.141593),
+    3: (-1.780236, 1.082104),
+    4: (0.0, 3.141593),
+    5: (-0.977384, 1.815142),
+    6: (-3.141593, 0.0),
+    7: (-1.605703, 0.907571),
+    8: (-3.141593, 0.0),
+}
 
-
+NEUTRAL_SERVO = {
+    1: 90,
+    2: 0,
+    3: 90,
+    4: 0,
+    5: 90,
+    6: 180,
+    7: 90,
+    8: 180,
+}
 @dataclass(frozen=True)
 class ToFMount:
-    """A ToF mounting point and ray expressed in the IMU/body frame."""
-
     offset: tuple[float, float, float]
     direction: tuple[float, float, float] = (0.0, 0.0, -1.0)
 
 
-@dataclass(frozen=True)
-class SensorConfig:
-    """Deterministic Stage 0 sensor configuration."""
+TOF_MOUNTS = (ToFMount(offset=(0.060,0.0,0.0)),
+                ToFMount(offset=(-0.060,0.0,0.0)),
+                ToFMount(offset=(0.0,0.060,0.0)),
+                ToFMount(offset=(0.0,-0.060,0.0)))
 
-    model_path: Path
-    tof_mounts: tuple[ToFMount, ...] = (
-        ToFMount((0.060, 0.0, 0.0)),
-        ToFMount((-0.060, 0.0, 0.0)),
-        ToFMount((0.0, 0.060, 0.0)),
-        ToFMount((0.0, -0.060, 0.0)),
-    )
-    tof_min_range: float = 0.01
-    tof_max_range: float = 2.0
-
-    def __post_init__(self):
-        if len(self.tof_mounts) != 4:
-            raise ValueError("Stage 0 requires exactly four ToF mounts")
-        if not 0.0 < self.tof_min_range < self.tof_max_range:
-            raise ValueError("ToF range limits must be positive and ordered")
-
-
-@dataclass(frozen=True)
+@dataclass
 class SensorSample:
-    """Hardware-path signals plus validity metadata for one simulation step."""
-
     tof_distance: np.ndarray
     tof_valid: np.ndarray
-    gravity_body: np.ndarray
-    gyro_body: np.ndarray
-    accelerometer_body: np.ndarray
-
+    accelerometer: np.ndarray
+    gyro: np.ndarray
 
 class HardwareSensorSimulator:
-    """Generate ToF and IMU signals without exposing simulator state."""
-
-    def __init__(self, config: SensorConfig):
-        self.config = config
-        self.model = mujoco.MjModel.from_xml_path(str(config.model_path))
+    def __init__(self,model_path):
+        self.model = mujoco.MjModel.from_xml_path(str(model_path))
         self.data = mujoco.MjData(self.model)
-        self.imu_site_id = mujoco.mj_name2id(
-            self.model, mujoco.mjtObj.mjOBJ_SITE, "imu"
+        self.imu_site_id = mujoco.mj_name2id(self.model,mujoco.mjtObj.mjOBJ_SITE,"imu")
+        self.accel_sensor_id = mujoco.mj_name2id(
+            self.model,
+            mujoco.mjtObj.mjOBJ_SENSOR,
+            "imu_accel",
         )
+        self.gyro_sensor_id = mujoco.mj_name2id(
+            self.model,
+            mujoco.mjtObj.mjOBJ_SENSOR,
+            "imu_gyro",
+        )
+        self.base_body_id = mujoco.mj_name2id(
+    self.model,
+    mujoco.mjtObj.mjOBJ_BODY,
+    "base_link",
+)
         if self.imu_site_id < 0:
-            raise ValueError("model must define an 'imu' site")
-        self._previous_position = None
-        self._previous_velocity = None
+            raise ValueError("IMU site 'imu' was not found")
+
+        if self.accel_sensor_id < 0:
+            raise ValueError("Accelerometer sensor 'imu_accel' was not found")
+
+        if self.gyro_sensor_id < 0:
+            raise ValueError("Gyro sensor 'imu_gyro' was not found")
 
     def reset(self):
-        mujoco.mj_resetData(self.model, self.data)
-        mujoco.mj_forward(self.model, self.data)
-        position = self.data.site_xpos[self.imu_site_id].copy()
-        self._previous_position = position
-        self._previous_velocity = np.zeros(3, dtype=np.float64)
 
-    def step(self, ctrl: np.ndarray) -> SensorSample:
-        ctrl = np.asarray(ctrl, dtype=np.float64)
-        if ctrl.shape != (self.model.nu,) or not np.all(np.isfinite(ctrl)):
-            raise ValueError(f"ctrl must contain {self.model.nu} finite values")
-        self.data.ctrl[:] = ctrl
-        mujoco.mj_step(self.model, self.data)
-        return self.read()
-
-    def read(self) -> SensorSample:
-        if self._previous_position is None:
-            raise RuntimeError("reset the sensor simulator before reading")
-
-        rotation = self.data.site_xmat[self.imu_site_id].reshape(3, 3)
-        position = self.data.site_xpos[self.imu_site_id].copy()
-        dt = self.model.opt.timestep
-        velocity = (position - self._previous_position) / dt
-        acceleration = (velocity - self._previous_velocity) / dt
-        gravity_world = np.array([0.0, 0.0, -9.81])
-
-        distances = np.full(4, np.nan, dtype=np.float64)
-        valid = np.zeros(4, dtype=bool)
-        for index, mount in enumerate(self.config.tof_mounts):
-            offset = np.asarray(mount.offset, dtype=np.float64)
-            direction = np.asarray(mount.direction, dtype=np.float64)
-            direction /= np.linalg.norm(direction)
-            origin = position + rotation @ offset
-            ray = rotation @ direction
-            if ray[2] >= -np.finfo(np.float64).eps:
-                continue
-            distance = -origin[2] / ray[2]
-            if self.config.tof_min_range <= distance <= self.config.tof_max_range:
-                distances[index] = distance
-                valid[index] = True
-
-        self._previous_position = position
-        self._previous_velocity = velocity
-        return SensorSample(
-            tof_distance=distances,
-            tof_valid=valid,
-            gravity_body=rotation.T @ np.array([0.0, 0.0, -1.0]),
-            gyro_body=rotation.T @ self.data.qvel[3:6],
-            accelerometer_body=rotation.T @ (acceleration - gravity_world),
+        mujoco.mj_resetData(
+            self.model,
+            self.data,
         )
 
+        # Set all eight joints to the real neutral servo pose
+        for joint_id in range(1, 9):
+            servo_deg = NEUTRAL_SERVO[joint_id]
 
-def default_sensor_config() -> SensorConfig:
-    return SensorConfig(
-        model_path=Path(__file__).resolve().parent.parent / "model" / "quadrapod.xml"
-    )
+            qpos_index = self.model.jnt_qposadr[
+                joint_id
+            ]
+
+            self.data.qpos[qpos_index] = self.servo_to_mujoco(
+                joint_id,
+                servo_deg,
+            )
+
+        mujoco.mj_forward(
+            self.model,
+            self.data,
+        )
+
+    def read_imu(self):
+        accel = self.data.sensordata[
+            self.model.sensor_adr[self.accel_sensor_id]:
+            self.model.sensor_adr[self.accel_sensor_id] + 3
+        ]
+
+        gyro = self.data.sensordata[
+            self.model.sensor_adr[self.gyro_sensor_id]:
+            self.model.sensor_adr[self.gyro_sensor_id] + 3
+        ]
+
+        return accel.copy(), gyro.copy()
+
+    def servo_to_mujoco(self, joint_id, servo_deg):
+        qmin, qmax = JOINT_LIMITS[joint_id]
+
+        return qmin + (servo_deg / 180.0) * (qmax - qmin)
+
+    def read_tof(self):
+
+        distances = np.zeros(4, dtype=np.float64)
+        valid = np.zeros(4, dtype=bool)
+
+        base_pos = self.data.xpos[self.base_body_id]
+
+        base_rot = self.data.xmat[
+            self.base_body_id
+        ].reshape(3, 3)
+
+        for i, mount in enumerate(TOF_MOUNTS):
+
+            local_offset = np.asarray(
+                mount.offset,
+                dtype=np.float64,
+            )
+
+            sensor_pos = (
+                base_pos
+                + base_rot @ local_offset
+            )
+
+            local_direction = np.asarray(
+                mount.direction,
+                dtype=np.float64,
+            )
+
+            direction = base_rot @ local_direction
+
+            direction /= np.linalg.norm(direction)
+
+            geomid = np.array([-1], dtype=np.int32)
+
+            distance = mujoco.mj_ray(
+                self.model,
+                self.data,
+                sensor_pos,
+                direction,
+                None,
+                1,
+                -1,
+                geomid,
+            )
+
+            if distance >= 0.0:
+                distances[i] = distance
+                valid[i] = True
+
+        return distances, valid
