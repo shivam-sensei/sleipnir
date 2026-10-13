@@ -12,7 +12,7 @@ import numpy as np
 # ============================================================
 
 MODEL_PATH = (
-    Path(__file__).resolve().parent.parent.parent
+    Path(__file__).resolve().parent
     / "model"
     / "quadrapod.xml"
 )
