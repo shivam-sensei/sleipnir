@@ -32,7 +32,7 @@
       diffuse="0.35 0.48 0.75" specular="0.25 0.30 0.45" directional="true" />
     <geom name="ground" type="plane" pos="0 0 0" size="4 4 0.01"
       material="ground_material" friction="0.8 0.05 0.01" />
-    <body name="base_link" pos="0 0 0.04">
+    <body name="base_link" pos="0 0 0.14">
       <freejoint />
       <inertial
         pos="-5.00155e-05 -4.99968e-06 0.00996106"
@@ -169,45 +169,47 @@
             <site name="fl_foot" pos="-0.037994333 -0.002087400 -0.075349695" size="0.005"/>
         </body>
       </body>
+      <!-- Downward-facing ToF base sensors (Front-Right, Rear-Right, Rear-Left, Front-Left) -->
+      <site name="tof_fr_site" pos="0.08 -0.05 0.0" zaxis="0 0 -1" size="0.004" rgba="1 0 1 1" />
+      <site name="tof_rr_site" pos="-0.08 -0.05 0.0" zaxis="0 0 -1" size="0.004" rgba="1 0 1 1" />
+      <site name="tof_rl_site" pos="-0.08  0.05 0.0" zaxis="0 0 -1" size="0.004" rgba="1 0 1 1" />
+      <site name="tof_fl_site" pos="0.08  0.05 0.0" zaxis="0 0 -1" size="0.004" rgba="1 0 1 1" />
     </body>
   </worldbody>
   <actuator>
-
-    <position name="motor_1" joint="1" kp="2" dampratio="0.2"
+    <position name="motor_1" joint="1" kp="5" dampratio="1.0"
       ctrllimited="true" ctrlrange="-0.733038 1.605703"
       forcelimited="true" forcerange="-0.98 0.98" />
-    <position name="motor_2" joint="2" kp="2" dampratio="0.2"
+    <position name="motor_2" joint="2" kp="5" dampratio="1.0"
       ctrllimited="true" ctrlrange="0 3.141593"
       forcelimited="true" forcerange="-0.98 0.98" />
-    <position name="motor_3" joint="3" kp="2" dampratio="0.2"
+    <position name="motor_3" joint="3" kp="5" dampratio="1.0"
       ctrllimited="true" ctrlrange="-1.780236 1.082104"
       forcelimited="true" forcerange="-0.98 0.98" />
-    <position name="motor_4" joint="4" kp="2" dampratio="0.2"
+    <position name="motor_4" joint="4" kp="5" dampratio="1.0"
       ctrllimited="true" ctrlrange="0 3.141593"
       forcelimited="true" forcerange="-0.98 0.98" />
-    <position name="motor_5" joint="5" kp="2" dampratio="0.2"
+    <position name="motor_5" joint="5" kp="5" dampratio="1.0"
       ctrllimited="true" ctrlrange="-0.977384 1.815142"
       forcelimited="true" forcerange="-0.98 0.98" />
-    <position name="motor_6" joint="6" kp="2" dampratio="0.2"
+    <position name="motor_6" joint="6" kp="5" dampratio="1.0"
       ctrllimited="true" ctrlrange="-3.141593 0"
       forcelimited="true" forcerange="-0.98 0.98" />
-    <position name="motor_7" joint="7" kp="2" dampratio="0.2"
+    <position name="motor_7" joint="7" kp="5" dampratio="1.0"
       ctrllimited="true" ctrlrange="-1.605703 0.907571"
       forcelimited="true" forcerange="-0.98 0.98" />
-    <position name="motor_8" joint="8" kp="2" dampratio="0.2"
+    <position name="motor_8" joint="8" kp="5" dampratio="1.0"
       ctrllimited="true" ctrlrange="-3.141593 0"
       forcelimited="true" forcerange="-0.98 0.98" />
-
   </actuator>
   <sensor>
+    <accelerometer name="imu_accel" site="imu" />
+    <gyro name="imu_gyro" site="imu" />
 
-    <accelerometer
-        name="imu_accel"
-        site="imu"/>
-
-    <gyro
-        name="imu_gyro"
-        site="imu"/>
-
-</sensor>
+    <!-- 4x Base Time-of-Flight range readings (meters) -->
+    <rangefinder name="tof_fr" site="tof_fr_site" />
+    <rangefinder name="tof_rr" site="tof_rr_site" />
+    <rangefinder name="tof_rl" site="tof_rl_site" />
+    <rangefinder name="tof_fl" site="tof_fl_site" />
+  </sensor>
 </mujoco>
